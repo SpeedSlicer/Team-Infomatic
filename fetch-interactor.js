@@ -4,6 +4,7 @@ function getGeneralData(team) {
     team = "frc" + team;
     year = 2025;
     const url = `https://www.thebluealliance.com/api/v3/team/${team}/events/${year}/statuses`;
+    console.log(url);
     fetch(url, {
         method: "GET",
         headers: {
