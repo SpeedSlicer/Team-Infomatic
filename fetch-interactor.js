@@ -106,8 +106,10 @@ function infoSpec(team, event) {
         data.forEach((match) => {
           if (match.alliances.red.team_keys.includes(team)) {
             totalPoints += match.alliances.red.score;
+            totalRP += match.score_breakdown.red.rp;
           } else if (match.alliances.blue.team_keys.includes(team)) {
             totalPoints += match.alliances.blue.score;
+            totalRP += match.score_breakdown.blue.rp;
           }
         });
       }
@@ -117,14 +119,13 @@ function infoSpec(team, event) {
           matchDetails.innerHTML = `
                 <h4>Match: ${match.comp_level} ${match.match_number}</h4>
                 <p><strong>Red Alliance:</strong> ${match.alliances.red.team_keys.join(
-                  ", "
-                )} | Score: ${match.alliances.red.score}</p>
+            ", "
+          )} | Score: ${match.alliances.red.score}</p>
                 <p><strong>Blue Alliance:</strong> ${match.alliances.blue.team_keys.join(
-                  ", "
-                )} | Score: ${match.alliances.blue.score}</p>
-                <p><strong>Winning Alliance:</strong> ${
-                  match.winning_alliance
-                }</p>
+            ", "
+          )} | Score: ${match.alliances.blue.score}</p>
+                <p><strong>Winning Alliance:</strong> ${match.winning_alliance
+            }</p>
             `;
           matchCount++;
 
@@ -135,6 +136,15 @@ function infoSpec(team, event) {
         avgPointsDisplay.textContent = `Average Points per Match: ${avgPoints.toFixed(
           2
         )}`;
+        const matchDisplay = document.createElement("h3");
+        matchDisplay.textContent = `Matches played: ${matchCount}`;
+        const rpDisplay = document.createElement("h3");
+        rpDisplay.textContent = `Ranking Points: ${totalRP}`;
+        const avgRpDisplay = document.createElement("h3");
+        avgRpDisplay.textContent = `Average Ranking Points: ${totalRP / matchCount}`;
+        containerOverview.appendChild(rpDisplay);
+        containerOverview.appendChild(avgRpDisplay);
+        containerOverview.appendChild(matchDisplay);
         containerOverview.prepend(avgPointsDisplay);
         document.body.appendChild(containerOverview);
 
