@@ -24,10 +24,12 @@ li a:hover {
   background-color: #aca107;
   transition: background-color 0.3s ease;
 }
+
 .active {
   background-color: #aca107;
   transition: background-color 0.3s ease;
 }
+
 .navtext {
   font-size: 20px;
   font-weight: bold;
@@ -44,11 +46,13 @@ li a:hover {
   font-family: 'Courier New', Courier, monospace;
   color: rgb(219, 205, 10);
 }
+
 img {
   max-width: 25%;
   height: auto;
   display: block;
 }
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -94,7 +98,10 @@ button:hover {
   transition: background-color 0.3s ease;
 }
 
-#info-gen, #info-container-spec, #info-spec-overview, #info-spec {
+#info-gen,
+#info-container-spec,
+#info-spec-overview,
+#info-spec {
   margin: 20px auto;
   padding: 10px;
   border: 1px solid #ccc;
@@ -108,7 +115,8 @@ button:hover {
 .stats {
   background-color: #e8f0fe;
 }
-.label-text{
+
+.label-text {
   font-weight: bold;
   color: #0950a1;
   text-align: center;
