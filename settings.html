@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Infomatic</title>
+    <script src="fetch-interactor.js"></script>
+    <script src="settings.js"></script>
+
+    <link rel="stylesheet" href="main.css" />
+</head>
+
+<body>
+    <ul>
+        <li><a href="index.html" class="navtext">Specific Info</a></li>
+        <li><a href="general.html" class="navtext">General Info</a></li>
+        <li><a href="download.html" class="navtext">Download Info</a></li>
+        <li class="active"><a href="settings.html" class="navtext">Settings</a></li>
+        <li><a href="https://github.com/SpeedSlicer/Team-Infomatic" class="navtext">Github</a></li>
+
+
+        <li class="end">
+            <img src="resources/oh-my-lordy.png" alt="Logo of 1640">
+        </li>
+
+    </ul>
+
+    <h2>Settings</h2>
+        <p for="authKey" class="label-text">Enter TBA Auth Key:</p>
+        <input type="password" id="authKey" name="authKey" required></input>
+        <p class="label-text">If you don't have an TBA API key, get it from the site here: <a href="https://www.thebluealliance.com/apidocs/v3">TBA Docs</a></p>
+        <p class="label-text" id="debugtext"></p>
+
+        <button class="cool" type="submit" onclick="save()">Save</button>
+
+    <p id="statusMessage"></p>
+</body>
+
+</html>
