@@ -106,8 +106,10 @@ function infoSpec(team, event) {
         data.forEach((match) => {
           if (match.alliances.red.team_keys.includes(team)) {
             totalPoints += match.alliances.red.score;
+            totalRP += match.score_breakdown.red.rp;
           } else if (match.alliances.blue.team_keys.includes(team)) {
             totalPoints += match.alliances.blue.score;
+            totalRP += match.score_breakdown.blue.rp;
           }
         });
       }
@@ -117,14 +119,13 @@ function infoSpec(team, event) {
           matchDetails.innerHTML = `
                 <h4>Match: ${match.comp_level} ${match.match_number}</h4>
                 <p><strong>Red Alliance:</strong> ${match.alliances.red.team_keys.join(
-                  ", "
-                )} | Score: ${match.alliances.red.score}</p>
+            ", "
+          )} | Score: ${match.alliances.red.score}</p>
                 <p><strong>Blue Alliance:</strong> ${match.alliances.blue.team_keys.join(
-                  ", "
-                )} | Score: ${match.alliances.blue.score}</p>
-                <p><strong>Winning Alliance:</strong> ${
-                  match.winning_alliance
-                }</p>
+            ", "
+          )} | Score: ${match.alliances.blue.score}</p>
+                <p><strong>Winning Alliance:</strong> ${match.winning_alliance
+            }</p>
             `;
           matchCount++;
 
@@ -135,46 +136,19 @@ function infoSpec(team, event) {
         avgPointsDisplay.textContent = `Average Points per Match: ${avgPoints.toFixed(
           2
         )}`;
+        const matchDisplay = document.createElement("h3");
+        matchDisplay.textContent = `Matches played: ${matchCount}`;
+        const rpDisplay = document.createElement("h3");
+        rpDisplay.textContent = `Ranking Points: ${totalRP}`;
+        const avgRpDisplay = document.createElement("h3");
+        avgRpDisplay.textContent = `Average Ranking Points: ${totalRP / matchCount}`;
+        containerOverview.appendChild(rpDisplay);
+        containerOverview.appendChild(avgRpDisplay);
+        containerOverview.appendChild(matchDisplay);
         containerOverview.prepend(avgPointsDisplay);
         document.body.appendChild(containerOverview);
 
         document.body.appendChild(container);
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-  //as i slowly devolve into insanity
-  url2 = `https://www.thebluealliance.com/api/v3/team/${team}/event/${event}/status`;
-  fetch(url2, {
-    method: "GET",
-    headers: {
-      "X-TBA-Auth-Key":
-        "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      let coolio = document.getElementById("info-spec-overview");
-      if (data.qual) {
-        const qualStatus = document.createElement("p");
-        qualStatus.innerHTML = `<strong>Rank:</strong>${data.qual.ranking.rank}/${data.qual.num_teams}`;
-
-        const record = document.createElement("p");
-        record.innerHTML += `\n<strong>Record:</strong>${data.qual.ranking.record.wins}-${data.qual.ranking.record.losses}-${data.qual.ranking.record.ties}`;
-        const gorpysorp = document.createElement("p");
-        gorpysorp.innerHTML += `\n<strong>Qual Average: </strong>${data.qual.ranking.qual_average}`;
-
-        const coco = document.createElement("p");
-        coco.innerHTML += `\n<strong>Matches Played: </strong>${data.qual.ranking.matches_played}`;
-
-        coolio.appendChild(qualStatus);
-
-        coolio.appendChild(record);
-        coolio.appendChild(gorpysorp);
-        coolio.appendChild(coco);
-      } else {
-        const noQualStatus = document.createElement("p");
-        noQualStatus.textContent = "Qualification Status: Not available.";
-        coolio.appendChild(noQualStatus);
       }
     })
     .catch((error) => console.error("Error:", error));
