@@ -1,17 +1,28 @@
-team = "frc1640";
-year = 2025;
-let jason = [[]];
-const url = `https://www.thebluealliance.com/api/v3/team/${team}/events/${year}/statuses`;
-fetch(url, {
-    method: 'GET',
-    headers: {
-        'X-TBA-Auth-Key': '1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13'
-    }
-})
-.then(response => response.json())
-.then(data => {
-    jason = data;
-    Object.entries(data).forEach(([eventKey, eventStatus]) => {
+function downloadExcel(json){
+    let data = json;
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(data);
+     XLSX.utils.sheet_add_aoa(worksheet, [["one","two","three","four"]], { origin: "A1" });
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "selection");
+    XLSX.writeFile(workbook, "test"+".xlsx", { compression: false });
+
+    // const blob = new Blob([workbook], { type: 'text/plain' });
+    // const url = window.URL.createObjectURL(blob);
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.download = currentTable.name+"_selection.xlsx"; //name of file to download
+    // document.body.appendChild(a); //necessary on some browsers to make it clickable
+    // a.click();
+    // document.body.removeChild(a); //keep DOM structure clean
+    // window.URL.revokeObjectURL(url); //free up memory
+}
+
+function testDownload() {
+    //let json = [[1,2,3,4],[2,3,4,5],[3,4,5,6]];
+    console.log(jason);
+    Object.entries(jason).forEach(([eventKey, eventStatus]) => {
         const container = document.createElement('div');
 
         const title = document.createElement('h3');
@@ -42,5 +53,5 @@ fetch(url, {
 
         document.body.appendChild(container);
     });
-})
-.catch(error => console.error('Error:', error));
+    //downloadExcel(jason);
+}
