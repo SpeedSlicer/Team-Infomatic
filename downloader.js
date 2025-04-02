@@ -20,38 +20,37 @@ function downloadExcel(json){
 }
 
 function testDownload() {
-    //let json = [[1,2,3,4],[2,3,4,5],[3,4,5,6]];
+    let sheet = [];
     console.log(jason);
     Object.entries(jason).forEach(([eventKey, eventStatus]) => {
-        const container = document.createElement('div');
+        let array = [];
 
-        const title = document.createElement('h3');
-        title.textContent = `Event: ${eventKey}`;
-        container.appendChild(title);
+        array.push(`Event: ${eventKey}`);
 
-        const overallStatus = document.createElement('p');
-        overallStatus.innerHTML = `<strong>Overall Status:</strong> ${eventStatus.overall_status_str}`;
-        container.appendChild(overallStatus);
+        array.push(`<strong>Overall Status:</strong> ${eventStatus.overall_status_str}`);
+
 
         if (eventStatus.qual) {
-            const qualStatus = document.createElement('p');
-            qualStatus.innerHTML = `<strong>Qualification Status:</strong> Rank ${eventStatus.qual.ranking.rank}/${eventStatus.qual.num_teams} with a record of ${eventStatus.qual.ranking.record.wins}-${eventStatus.qual.ranking.record.losses}-${eventStatus.qual.ranking.record.ties}`;
-            container.appendChild(qualStatus);
+            array.push(`<strong>Qualification Status:</strong> Rank ${eventStatus.qual.ranking.rank}/${eventStatus.qual.num_teams} with a record of ${eventStatus.qual.ranking.record.wins}-${eventStatus.qual.ranking.record.losses}-${eventStatus.qual.ranking.record.ties}`);
+        }else{
+            array.push("");
         }
 
         if (eventStatus.playoff) {
-            const playoffStatus = document.createElement('p');
-            playoffStatus.innerHTML = `<strong>Playoff Status:</strong> ${eventStatus.playoff_status_str}`;
-            container.appendChild(playoffStatus);
+            array.push(`<strong>Playoff Status:</strong> ${eventStatus.playoff_status_str}`);
+        }else{
+            array.push("");
         }
 
         if (eventStatus.alliance) {
-            const allianceStatus = document.createElement('p');
-            allianceStatus.innerHTML = `<strong>Alliance:</strong> ${eventStatus.alliance_status_str}`;
-            container.appendChild(allianceStatus);
+            array.push(`<strong>Alliance:</strong> ${eventStatus.alliance_status_str}`);
+        }else{
+            array.push("");
         }
 
-        document.body.appendChild(container);
+        sheet.push(array);
     });
-    //downloadExcel(jason);
+    
+    console.log(sheet);
+    downloadExcel(sheet);
 }
