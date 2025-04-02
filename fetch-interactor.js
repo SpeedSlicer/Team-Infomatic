@@ -1,14 +1,71 @@
 let events = [];
+var cookie = {
+  set: function (name, value, daysToLive) {
+    var cookie = name + "=" + encodeURIComponent(value);
+
+    if (typeof daysToLive === "number") {
+      cookie += "; max-age=" + (daysToLive * 24 * 60 * 60);
+    }
+
+    document.cookie = cookie;
+  },
+
+  get: function (name) {
+    var cookies = document.cookie.split(";").map(function (cookie) {
+      return cookie.trim();
+    });
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var separatorIndex = cookie.indexOf("=");
+      var cookieName = cookie.slice(0, separatorIndex);
+
+      if (cookieName === name) {
+        return decodeURIComponent(cookie.slice(separatorIndex + 1));
+      }
+    }
+
+    return null;
+  },
+
+  delete: function (name) {
+    document.cookie = name + "=; max-age=0";
+  },
+
+  exists: function (name) {
+    var cookies = document.cookie.split(";").map(function (cookie) {
+      return cookie.trim();
+    });
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var separatorIndex = cookie.indexOf("=");
+      var cookieName = cookie.slice(0, separatorIndex).trim();
+
+      if (cookieName === name) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+};
+let authKey = cookie.get("authKey") || "";
+
 function getGeneralData(team) {
+  if (authKey == "") {
+    alert("Set authkey in settings! Get one at the TBA API Site!");
+    window.location.href = ("settings.html");
+  }
   events = [];
   team = "frc" + team;
   year = 2025;
   const url = `https://www.thebluealliance.com/api/v3/team/${team}/events/${year}/statuses`;
+  const cookies = document.cookie.split("; ");
   fetch(url, {
     method: "GET",
     headers: {
-      "X-TBA-Auth-Key":
-        "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13",
+      "X-TBA-Auth-Key": authKey,
     },
   })
     .then((response) => response.json())
@@ -52,6 +109,10 @@ function getGeneralData(team) {
     .catch((error) => console.error("Error:", error));
 }
 function getSpecificData(team) {
+  if (authKey == "") {
+    alert("Set authkey in settings! Get one at the TBA API Site!");
+    window.location.href = ("settings.html");
+  }
   const containerMain = document.getElementById("info-container-spec");
   events = [];
   team = "frc" + team;
@@ -61,7 +122,7 @@ function getSpecificData(team) {
     method: "GET",
     headers: {
       "X-TBA-Auth-Key":
-        "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13",
+        authKey,
     },
   })
     .then((response) => response.json())
@@ -83,6 +144,10 @@ function getSpecificData(team) {
 }
 
 function infoSpec(team, event) {
+  if (authKey == "") {
+    alert("Set authkey in settings! Get one at the TBA API Site!");
+    window.location.href = ("settings.html");
+  }
   team = team;
   year = 2025;
   const url = `https://www.thebluealliance.com/api/v3/team/${team}/event/${event}/matches`;
@@ -90,7 +155,7 @@ function infoSpec(team, event) {
     method: "GET",
     headers: {
       "X-TBA-Auth-Key":
-        "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13",
+        authKey,
     },
   })
     .then((response) => response.json())
