@@ -142,4 +142,40 @@ function infoSpec(team, event) {
       }
     })
     .catch((error) => console.error("Error:", error));
+  //as i slowly devolve into insanity
+  url2 = `https://www.thebluealliance.com/api/v3/team/${team}/event/${event}/status`;
+  fetch(url2, {
+    method: "GET",
+    headers: {
+      "X-TBA-Auth-Key":
+        "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let coolio = document.getElementById("info-spec-overview");
+      if (data.qual) {
+        const qualStatus = document.createElement("p");
+        qualStatus.innerHTML = `<strong>Rank:</strong>${data.qual.ranking.rank}/${data.qual.num_teams}`;
+
+        const record = document.createElement("p");
+        record.innerHTML += `\n<strong>Record:</strong>${data.qual.ranking.record.wins}-${data.qual.ranking.record.losses}-${data.qual.ranking.record.ties}`;
+        const gorpysorp = document.createElement("p");
+        gorpysorp.innerHTML += `\n<strong>Qual Average: </strong>${data.qual.ranking.qual_average}`;
+
+        const coco = document.createElement("p");
+        coco.innerHTML += `\n<strong>Matches Played: </strong>${data.qual.ranking.matches_played}`;
+
+        coolio.appendChild(qualStatus);
+
+        coolio.appendChild(record);
+        coolio.appendChild(gorpysorp);
+        coolio.appendChild(coco);
+      } else {
+        const noQualStatus = document.createElement("p");
+        noQualStatus.textContent = "Qualification Status: Not available.";
+        coolio.appendChild(noQualStatus);
+      }
+    })
+    .catch((error) => console.error("Error:", error));
 }
