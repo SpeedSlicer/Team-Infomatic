@@ -91,7 +91,6 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  :active { background: #00f }
 }
 
 button:focus {
