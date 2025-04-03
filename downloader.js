@@ -1,20 +1,27 @@
-function downloadCSV(sheet) {
-    let content = "";
-    for (let i = 0; i < sheet.length; i++) {
-        for (let j = 0; j < sheet[0].length; j++) {
-            content += sheet[i][j] + ",";
-        }
-        content += "\n";
-    }
+function downloadCSV(content, fileName) {
     const blob = new Blob([content], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = "test" + "_selection.csv"; //name of file to download
+    a.download = fileName+".csv"; //name of file to download
     document.body.appendChild(a); //necessary on some browsers to make it clickable
     a.click();
     document.body.removeChild(a); //keep DOM structure clean
     window.URL.revokeObjectURL(url); //free up memory
+}
+
+function arrayToCSV(sheet){
+    let content = "";
+    for (let i = 0; i < sheet.length; i++) {
+        for (let j = 0; j < sheet[0].length; j++) {
+            if(!sheet[i][j]){
+                sheet[i][j] = "";
+            }
+            content += sheet[i][j] + ",";
+        }
+        content += "\n";
+    }
+    return content;
 }
 
 let data; //
@@ -37,6 +44,8 @@ async function downloadClicked() {
 
     // rows
     // unique team
+
+    document.body.style.cursor = 'wait';
 
     input = document.getElementById("event-input").value;
     if (input && input != "") {// null check
@@ -73,15 +82,18 @@ async function downloadClicked() {
     data3 = await getAllMatches();
 
     console.log(data3);
+    document.body.style.cursor = 'default';
 
-    downloadCSV(construct_sheet());
+    downloadCSV(arrayToCSV(construct_sheet()), eventName+"_event");
 
 }
+
 async function downloadClickedTeam(team) {
     if (authKey == "") {
         alert("Set authkey in settings! Get one at the TBA API Site!");
         window.location.href = ("settings.html");
     }
+    document.body.style.cursor = 'wait';
 
     team = "frc" + team;
     const year = 2025;
@@ -140,15 +152,9 @@ async function downloadClickedTeam(team) {
                     });
             }
         }).catch((error) => console.error("Error:", error));
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${team}_matches.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+
+    document.body.style.cursor = 'default';
+    downloadCSV(csvContent, `${team}_matches`);
 };
 
 
@@ -205,7 +211,7 @@ async function getAllMatches() {
 }
 
 
-//data and data2 must be initialized
+//data data2 and data3 must be initialized
 function construct_sheet() {
     let sheet = [];
     let titleRow = [
