@@ -4,7 +4,7 @@ var cookie = {
     var cookie = name + "=" + encodeURIComponent(value);
 
     if (typeof daysToLive === "number") {
-      cookie += "; max-age=" + (daysToLive * 24 * 60 * 60);
+      cookie += "; max-age=" + daysToLive * 24 * 60 * 60;
     }
 
     document.cookie = cookie;
@@ -48,14 +48,14 @@ var cookie = {
     }
 
     return false;
-  }
+  },
 };
 let authKey = cookie.get("authKey") || "";
 
 function getGeneralData(team) {
   if (authKey == "") {
-    alert("Set authkey in settings! Get one at the TBA API Site!");
-    window.location.href = ("settings.html");
+    authKey =
+      "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13";
   }
   events = [];
   team = "frc" + team;
@@ -110,8 +110,8 @@ function getGeneralData(team) {
 }
 function getSpecificData(team) {
   if (authKey == "") {
-    alert("Set authkey in settings! Get one at the TBA API Site!");
-    window.location.href = ("settings.html");
+    authKey =
+      "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13";
   }
   const containerMain = document.getElementById("info-container-spec");
   events = [];
@@ -121,8 +121,7 @@ function getSpecificData(team) {
   fetch(url, {
     method: "GET",
     headers: {
-      "X-TBA-Auth-Key":
-        authKey,
+      "X-TBA-Auth-Key": authKey,
     },
   })
     .then((response) => response.json())
@@ -145,8 +144,8 @@ function getSpecificData(team) {
 
 function infoSpec(team, event) {
   if (authKey == "") {
-    alert("Set authkey in settings! Get one at the TBA API Site!");
-    window.location.href = ("settings.html");
+    authKey =
+      "1zgMOfk62T2yqFlC2qEgsp1BAVDmLlKiNJcfKG5ZPlFkBCXvAAwvx3vRHB1ahJ13";
   }
   team = team;
   year = 2025;
@@ -154,8 +153,7 @@ function infoSpec(team, event) {
   fetch(url, {
     method: "GET",
     headers: {
-      "X-TBA-Auth-Key":
-        authKey,
+      "X-TBA-Auth-Key": authKey,
     },
   })
     .then((response) => response.json())
@@ -184,13 +182,14 @@ function infoSpec(team, event) {
           matchDetails.innerHTML = `
                 <h4>Match: ${match.comp_level} ${match.match_number}</h4>
                 <p><strong>Red Alliance:</strong> ${match.alliances.red.team_keys.join(
-            ", "
-          )} | Score: ${match.alliances.red.score}</p>
+                  ", "
+                )} | Score: ${match.alliances.red.score}</p>
                 <p><strong>Blue Alliance:</strong> ${match.alliances.blue.team_keys.join(
-            ", "
-          )} | Score: ${match.alliances.blue.score}</p>
-                <p><strong>Winning Alliance:</strong> ${match.winning_alliance
-            }</p>
+                  ", "
+                )} | Score: ${match.alliances.blue.score}</p>
+                <p><strong>Winning Alliance:</strong> ${
+                  match.winning_alliance
+                }</p>
             `;
           matchCount++;
 
@@ -206,7 +205,9 @@ function infoSpec(team, event) {
         const rpDisplay = document.createElement("h3");
         rpDisplay.textContent = `Ranking Points: ${totalRP}`;
         const avgRpDisplay = document.createElement("h3");
-        avgRpDisplay.textContent = `Average Ranking Points: ${totalRP / matchCount}`;
+        avgRpDisplay.textContent = `Average Ranking Points: ${
+          totalRP / matchCount
+        }`;
         containerOverview.appendChild(rpDisplay);
         containerOverview.appendChild(avgRpDisplay);
         containerOverview.appendChild(matchDisplay);
