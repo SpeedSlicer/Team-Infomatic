@@ -4,14 +4,43 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team Infomatic</title>
+    <title>Team Infomatic - Downloader</title>
     <script src="fetch-interactor.js"></script>
     <script src="downloader.js"></script>
+    <link rel="icon" type="image/x-icon" href="/resources/oh-my-lordy.png">
+
+    <link rel="stylesheet" href="main.css" />
 </head>
 
 <body>
-    <h1>Type your team number into the infomatic</h1>
-    <button onclick="testDownload()">Download XLSX</button>
+    <ul>
+        <li>
+            <img src="resources/oh-my-lordy.png" alt="Logo of 1640">
+        </li>
+        <li><a href="index.html" class="navtext">Specific Stats</a></li>
+        <li><a href="general.html" class="navtext">Team Recap</a></li>
+        <li class="active"><a href="download.html" class="navtext">Download Stats</a></li>
+        <li><a href="settings.html" class="navtext">Settings</a></li>
+        <li><a href="https://github.com/SpeedSlicer/Team-Infomatic" class="navtext">Github</a></li>
+
+    </ul>
+
+    <h2>Event CSV</h2>
+    <input id="event-input" type="text" placeholder="yyyy(event code)" value="2025mrcmp">
+    <button onclick="downloadClicked()" id="download-button">Download Event Data</button>
+    <div id="info-container-spec">
+        <h3>Suggestions:</h3>
+        <p>FMA Championships - 2025mrcmp</li>
+        <p>Seneca - 2025njtab</li>
+    </div>
+    <h2>Team Matches CSV</h2>
+    <input id="team-input" type="text" placeholder="yyyy(event code)" value="1640">
+    <button onclick="downloadClickedTeam(document.getElementById('team-input').value)" id="download-button">Download Team Data</button>
+    <div id="info-container-spec"1>
+        <h3>Suggestions:</h3>
+        <p>Sab-BOT-Tage - 1640</li>
+        <p>Peddie Robotics - 5898</li>
+    </div>
 </body>
 
 </html>
