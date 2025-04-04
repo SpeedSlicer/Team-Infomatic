@@ -188,11 +188,16 @@ function infoSpec(team, event) {
           const matchDetails = document.createElement("div");
           let redScore;
           let blueScore;
-          try{
+          try {
             redScore = match.alliances.red.score;
             blueScore = match.alliances.blue.score;
-          }
-          catch(e){
+            if ((redScore = -1)) {
+              redScore = "TBD";
+            }
+            if ((blueScore = -1)) {
+              blueScore = "TBD";
+            }
+          } catch (e) {
             redScore = "TBD";
             blue = "TBD";
           }
@@ -200,7 +205,7 @@ function infoSpec(team, event) {
                 <h4>Match: ${match.comp_level} ${match.match_number}</h4>
                 <p><strong>Red Alliance:</strong> ${match.alliances.red.team_keys.join(
                   ", "
-                )} | Score: ${redScore}}</p>
+                )} | Score: ${redScore}</p>
                 <p><strong>Blue Alliance:</strong> ${match.alliances.blue.team_keys.join(
                   ", "
                 )} | Score: ${blueScore}</p>
