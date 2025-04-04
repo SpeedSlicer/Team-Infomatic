@@ -243,7 +243,7 @@ function construct_sheet() {
     "Matches Played",
     "Total Ranking Points",
   ];
-  let numQualMatches = 0;
+  let numQualMatches = 1;
   for (let i = 0; i < data.length; i++) {
     if ((data[i].comp_level = "qm")) {
       numQualMatches++;
