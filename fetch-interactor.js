@@ -191,10 +191,10 @@ function infoSpec(team, event) {
           try {
             redScore = match.alliances.red.score;
             blueScore = match.alliances.blue.score;
-            if ((redScore == -1)) {
+            if (redScore == -1) {
               redScore = "TBD";
             }
-            if ((blueScore == -1)) {
+            if (blueScore == -1) {
               blueScore = "TBD";
             }
           } catch (e) {
