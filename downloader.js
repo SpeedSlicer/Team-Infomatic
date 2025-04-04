@@ -209,7 +209,19 @@ async function getAllMatches() {
       for (let j = 0; j < data[i].length; j++) {
         let match = data[i][j];
         if (match && match.comp_level === "qm") {
-          matches[match.match_number] = "X";
+          console.log(match.alliances.blue.team_keys);
+          let g = match.alliances.blue.team_keys;
+          for (let team of g) {
+            if (team === `frc${teamNum}`) {
+              matches[match.match_number] = "B";
+            }
+          }
+          let h = match.alliances.red.team_keys;
+          for (let team of h) {
+            if (team === `frc${teamNum}`) {
+              matches[match.match_number] = "R";
+            }
+          }
         }
       }
       map_teamNum_matches.set(teamNum, matches);
