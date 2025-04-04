@@ -167,32 +167,43 @@ function infoSpec(team, event) {
       let matchCount = 0;
       if (Array.isArray(data)) {
         data.forEach((match) => {
-          if (
-            match.alliances.red.team_keys.includes(team) &&
-            match.score_breakdown.red.rp != null
-          ) {
-            totalPoints += match.alliances.red.score;
-            totalRP += match.score_breakdown.red.rp;
-          } else if (
-            match.alliances.blue.team_keys.includes(team) &&
-            match.score_breakdown.blue.rp != null
-          ) {
-            totalPoints += match.alliances.blue.score;
-            totalRP += match.score_breakdown.blue.rp;
+          try {
+            if (match.alliances.red.team_keys.includes(team)) {
+              totalPoints += match.alliances.red.score;
+              totalRP += match.score_breakdown.red.rp;
+            } else if (
+              match.alliances.blue.team_keys.includes(team) &&
+              match.score_breakdown.blue.rp != null
+            ) {
+              totalPoints += match.alliances.blue.score;
+              totalRP += match.score_breakdown.blue.rp;
+            }
+          } catch (e) {
+            console.log(e);
           }
         });
       }
       if (Array.isArray(data)) {
         data.forEach((match) => {
           const matchDetails = document.createElement("div");
+          let redScore;
+          let blueScore;
+          try{
+            redScore = match.alliances.red.score;
+            blueScore = match.alliances.blue.score;
+          }
+          catch(e){
+            redScore = "TBD";
+            blue = "TBD";
+          }
           matchDetails.innerHTML = `
                 <h4>Match: ${match.comp_level} ${match.match_number}</h4>
                 <p><strong>Red Alliance:</strong> ${match.alliances.red.team_keys.join(
                   ", "
-                )} | Score: ${match.alliances.red.score}</p>
+                )} | Score: ${redScore}}</p>
                 <p><strong>Blue Alliance:</strong> ${match.alliances.blue.team_keys.join(
                   ", "
-                )} | Score: ${match.alliances.blue.score}</p>
+                )} | Score: ${blueScore}</p>
                 <p><strong>Winning Alliance:</strong> ${
                   match.winning_alliance
                 }</p>
