@@ -167,10 +167,16 @@ function infoSpec(team, event) {
       let matchCount = 0;
       if (Array.isArray(data)) {
         data.forEach((match) => {
-          if (match.alliances.red.team_keys.includes(team)) {
+          if (
+            match.alliances.red.team_keys.includes(team) &&
+            match.score_breakdown.red.rp != null
+          ) {
             totalPoints += match.alliances.red.score;
             totalRP += match.score_breakdown.red.rp;
-          } else if (match.alliances.blue.team_keys.includes(team)) {
+          } else if (
+            match.alliances.blue.team_keys.includes(team) &&
+            match.score_breakdown.blue.rp != null
+          ) {
             totalPoints += match.alliances.blue.score;
             totalRP += match.score_breakdown.blue.rp;
           }
